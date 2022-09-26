@@ -23,7 +23,8 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
     private int initRight;
 
     private int size;
-    private Paint initColor;
+    private Paint white;
+    private Paint blue;
 
     public GameSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -31,7 +32,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
         gridSize = 4;
 
-        space = 10;
+        space = 5;
         size = 250;
 
         initTop = 20;
@@ -42,8 +43,11 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
         squares = new Square[gridSize][gridSize];
 
-        initColor = new Paint();
-        initColor.setColor(Color.WHITE);
+        white = new Paint();
+        white.setColor(Color.WHITE);
+
+        blue = new Paint();
+        blue.setColor(Color.WHITE);
 
         for(int j = 0; j < gridSize; j++) {
             for(int i = 0; i < gridSize; i++) {
@@ -53,17 +57,13 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
                         space + initTop + (initBottom - initTop) * j,
                         initRight + (initRight - initLeft) * i,
                         initBottom + (initBottom - initTop) * j,
-                        initColor);
+                        white);
             }
         }
-        Log.d("testing","game");
     }
 
-    //@Override
     protected void onDraw(Canvas canvas) {
-        //super.onDraw(canvas);
 
-        Log.d("testing","draw");
         for(int j = 0; j < gridSize; j++) {
             for(int i = 0; i < gridSize; i++) {
                 canvas.drawRect(
@@ -71,39 +71,32 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
                         squares[i][j].getTop(),
                         squares[i][j].getRight(),
                         squares[i][j].getBottom(),
-                        squares[i][j].getColor()
+                        white
                 );
             }
         }
 
     }
 
+
     @Override
     public boolean onTouch(View view, MotionEvent event) {
 
+        float x = event.getX();
+        float y = event.getY();
+        //Log.i("Testing","ont");
         if(event.getActionMasked() == MotionEvent.ACTION_DOWN){
 
-            Log.d("testing","touch");
-            float x = event.getX();
-            float y = event.getY();
 
             for(int j = 0; j < gridSize; j++) {
                 for(int i = 0; i < gridSize; i++) {
-
-                    if((y > squares[i][j].getTop() && y < squares[i][j].getBottom()) &&
-                            (x > squares[i][j].getLeft() && x < squares[i][j].getRight())){
-
-                        squares[i][j].setColor(Color.BLUE);
-                        invalidate();
-                        return true;
+                    if(x > squares[i][j].getLeft() && x < squares[i][j].getRight() &&
+                            y > squares[i][j].getTop() && y < squares[i][j].getBottom()){
+                        Log.i("Testing","tap" + i + "" + j);
                     }
-
                 }
             }
-
-
         }
         return false;
     }
-
 }
