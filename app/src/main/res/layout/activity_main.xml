@@ -12,7 +12,7 @@
         android:orientation="vertical">
 
         <com.example.a15squares.GameSurfaceView
-            android:id="@+id/surfaceView"
+            android:id="@+id/gameBoard"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.a15squares;
 
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 
@@ -21,6 +22,7 @@ public class Square {
         left = l;
         bottom = b;
         right = r;
+
         color = c;
 
         rect = new Rect(t, l, b, r);
@@ -44,5 +46,13 @@ public class Square {
 
     public int getRight() {
         return right;
+    }
+
+    public void setColor(int c){
+        color.setColor(c);
+    }
+
+    public Paint getColor() {
+        return color;
     }
 }
