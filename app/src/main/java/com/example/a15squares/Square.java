@@ -10,14 +10,20 @@ public class Square {
     private int bottom;
     private int right;
 
+    private boolean isOpen;
+
+    private int num;
+
     private Paint color;
 
-    public Square(int t, int l, int b, int r, Paint c){
+    public Square(int t, int l, int b, int r, int n, Paint c){
         top = t;
         left = l;
         bottom = b;
         right = r;
         color = c;
+        num = n;
+        isOpen = false;
     }
 
     public int getTop(){
@@ -42,5 +48,17 @@ public class Square {
 
     public Paint getColor() {
         return color;
+    }
+
+    public void toggleIsOpen(){
+        isOpen = !isOpen;
+    }
+
+    public boolean isOpen(){
+        return isOpen;
+    }
+
+    public int getNum(){
+        return num;
     }
 }

@@ -23,8 +23,12 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
     private int initRight;
 
     private int size;
+
     private Paint white;
     private Paint blue;
+    private Paint textColor;
+
+    int number;
 
     public GameSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -49,6 +53,12 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
         blue = new Paint();
         blue.setColor(Color.BLUE);
 
+        textColor = new Paint();
+        textColor.setColor(Color.BLACK);
+        textColor.setTextSize(100);
+
+        number = 1;
+
         for(int j = 0; j < gridSize; j++) {
             for(int i = 0; i < gridSize; i++) {
 
@@ -57,22 +67,35 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
                         space + initTop + (initBottom - initTop) * j,
                         initRight + (initRight - initLeft) * i,
                         initBottom + (initBottom - initTop) * j,
+                        number,
                         white);
+
+                number++;
+
+                Log.d("Testing","init " + squares[i][j].getNum());
             }
         }
     }
 
     protected void onDraw(Canvas canvas) {
+
+        Log.d("Testing","draw ");
         for(int j = 0; j < gridSize; j++) {
             for(int i = 0; i < gridSize; i++) {
-                Log.d("Testing","draw " + squares[i][j].getColor());
+
                 canvas.drawRect(
                         squares[i][j].getLeft(),
                         squares[i][j].getTop(),
                         squares[i][j].getRight(),
                         squares[i][j].getBottom(),
-                        squares[i][j].getColor()
-                );
+                        squares[i][j].getColor());
+
+                canvas.drawText("" + squares[i][j].getNum(),
+                        squares[i][j].getLeft() + 3*size/8,
+                        squares[i][j].getTop() + 5*size/8,
+                        textColor);
+
+                //squares[i][j].setColor(white);
             }
         }
 
@@ -92,8 +115,14 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
                 for(int i = 0; i < gridSize; i++) {
                     if(x > squares[i][j].getLeft() && x < squares[i][j].getRight() &&
                             y > squares[i][j].getTop() && y < squares[i][j].getBottom()){
-                        Log.i("Testing","tap" + i + " " + j + " " + squares[i][j].getColor());
-                        squares[i][j].setColor(blue);
+
+                        Log.i("Testing","tap" + i + " " + j + " ");
+
+                        //if square isn't open and is clicked, it becomes open and unable to be tapped
+                        if(!squares[i][j].isOpen()){
+                            squares[i][j].toggleIsOpen();
+                        }
+
                         invalidate();
                         return true;
 
