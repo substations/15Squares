@@ -56,6 +56,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
         textColor = new Paint();
         textColor.setColor(Color.BLACK);
         textColor.setTextSize(100);
+        textColor.setTextAlign(Paint.Align.CENTER);
 
         number = 1;
 
@@ -91,8 +92,8 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
                         squares[i][j].getColor());
 
                 canvas.drawText("" + squares[i][j].getNum(),
-                        squares[i][j].getLeft() + 3*size/8,
-                        squares[i][j].getTop() + 5*size/8,
+                        squares[i][j].getRight() - (squares[i][j].getRight() - squares[i][j].getLeft())/2,
+                        squares[i][j].getBottom() - (squares[i][j].getBottom() - squares[i][j].getTop())/2,
                         textColor);
 
                 //squares[i][j].setColor(white);
