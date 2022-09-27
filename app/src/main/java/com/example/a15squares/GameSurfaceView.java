@@ -10,12 +10,16 @@ import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
 
+import java.util.Random;
+
 public class GameSurfaceView extends SurfaceView implements View.OnTouchListener{
 
+    private Random rand = new Random();
     private Square squares[][];
     private int gridSize;
     private int space;
     private int emptyValue;
+    private int numbers[];
 
     private int initTop;
     private int initLeft;
@@ -29,9 +33,6 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
     private Paint openColor;
     private Paint textColor;
 
-    private int rLoc;
-    private int cLoc;
-
     int number;
 
     public GameSurfaceView(Context context, AttributeSet attrs) {
@@ -40,6 +41,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
         gridSize = 4;
         emptyValue = gridSize*gridSize;
+        numbers = new int[emptyValue];
 
         space = 5;
         size = 250;
@@ -65,21 +67,46 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
         number = 1;
 
-        rLoc = 2;
-        cLoc = 3;
+        //initialization
+        for(int n : numbers){
+            n = 0;
+        }
 
+        int assign;
         for(int j = 0; j < gridSize; j++) {
             for(int i = 0; i < gridSize; i++) {
+
+                boolean pass;
+
+                do{
+                    pass = true;
+                    assign = rand.nextInt(emptyValue) + 1;
+
+                    for (int n : numbers) {
+                        if (assign == n){
+                            pass = false;
+                        }
+                    }
+                } while (!pass);
+
+                for(int k = 0; k < emptyValue; k++){
+                    if(numbers[k] == 0){
+                        numbers[k] = assign;
+                        break;
+                    }
+                }
+
+
 
                 squares[i][j] = new Square(
                         space + initLeft + (initRight - initLeft) * i,
                         space + initTop + (initBottom - initTop) * j,
                         initRight + (initRight - initLeft) * i,
                         initBottom + (initBottom - initTop) * j,
-                        number,
+                        assign,
                         closedColor);
 
-                number++;
+                //number++;
 
                 Log.d("Testing","init " + squares[i][j].getNum());
             }
