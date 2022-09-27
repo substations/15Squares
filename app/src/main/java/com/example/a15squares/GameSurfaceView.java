@@ -15,6 +15,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
     private Square squares[][];
     private int gridSize;
     private int space;
+    private int emptyValue;
 
     private int initTop;
     private int initLeft;
@@ -24,9 +25,12 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
     private int size;
 
-    private Paint white;
-    private Paint blue;
+    private Paint closedColor;
+    private Paint openColor;
     private Paint textColor;
+
+    private int rLoc;
+    private int cLoc;
 
     int number;
 
@@ -35,6 +39,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
         setWillNotDraw(false);
 
         gridSize = 4;
+        emptyValue = gridSize*gridSize;
 
         space = 5;
         size = 250;
@@ -47,11 +52,11 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
         squares = new Square[gridSize][gridSize];
 
-        white = new Paint();
-        white.setColor(Color.WHITE);
+        closedColor = new Paint();
+        closedColor.setColor(Color.WHITE);
 
-        blue = new Paint();
-        blue.setColor(Color.BLUE);
+        openColor = new Paint();
+        openColor.setColor(Color.BLUE);
 
         textColor = new Paint();
         textColor.setColor(Color.BLACK);
@@ -59,6 +64,9 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
         textColor.setTextAlign(Paint.Align.CENTER);
 
         number = 1;
+
+        rLoc = 2;
+        cLoc = 3;
 
         for(int j = 0; j < gridSize; j++) {
             for(int i = 0; i < gridSize; i++) {
@@ -69,7 +77,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
                         initRight + (initRight - initLeft) * i,
                         initBottom + (initBottom - initTop) * j,
                         number,
-                        white);
+                        closedColor);
 
                 number++;
 
@@ -84,19 +92,31 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
         for(int j = 0; j < gridSize; j++) {
             for(int i = 0; i < gridSize; i++) {
 
-                canvas.drawRect(
+                //acts as open square
+                if(squares[i][j].getNum() == emptyValue){
+                    canvas.drawRect(
                         squares[i][j].getLeft(),
                         squares[i][j].getTop(),
                         squares[i][j].getRight(),
                         squares[i][j].getBottom(),
-                        squares[i][j].getColor());
+                        openColor
+                    );
+                } else {
 
-                canvas.drawText("" + squares[i][j].getNum(),
-                        squares[i][j].getRight() - (squares[i][j].getRight() - squares[i][j].getLeft())/2,
-                        squares[i][j].getBottom() - (squares[i][j].getBottom() - squares[i][j].getTop())/2,
-                        textColor);
+                    canvas.drawRect(
+                            squares[i][j].getLeft(),
+                            squares[i][j].getTop(),
+                            squares[i][j].getRight(),
+                            squares[i][j].getBottom(),
+                            squares[i][j].getColor());
 
-                //squares[i][j].setColor(white);
+                    canvas.drawText("" + squares[i][j].getNum(),
+                            squares[i][j].getRight() - (squares[i][j].getRight() - squares[i][j].getLeft())/2,
+                            squares[i][j].getBottom() - (squares[i][j].getBottom() - squares[i][j].getTop())/2,
+                            textColor);
+
+                }
+
             }
         }
 
@@ -108,30 +128,79 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
         float x = event.getX();
         float y = event.getY();
+        int temp;
         //Log.i("Testing","ont");
         if(event.getActionMasked() == MotionEvent.ACTION_DOWN){
 
 
-            for(int j = 0; j < gridSize; j++) {
-                for(int i = 0; i < gridSize; i++) {
+            for(int i = 0; i < gridSize; i++) {
+                for(int j = 0; j < gridSize; j++) {
+
                     if(x > squares[i][j].getLeft() && x < squares[i][j].getRight() &&
                             y > squares[i][j].getTop() && y < squares[i][j].getBottom()){
 
                         Log.i("Testing","tap" + i + " " + j + " ");
 
-                        //if square isn't open and is clicked, it becomes open and unable to be tapped
-                        if(!squares[i][j].isOpen()){
-                            squares[i][j].toggleIsOpen();
+                        //if square is open, do nothing
+                        if(squares[i][j].getNum() == emptyValue){
+                            return false;
                         }
 
-                        invalidate();
-                        return true;
+                        //square is closed, check if near open: above
+                        if(i - 1 >= 0) {
+                            if (squares[i - 1][j].getNum() == emptyValue) {
+                                //above is open, move
+                                temp = squares[i][j].getNum();
+                                squares[i][j].setNum(emptyValue);
+                                squares[i - 1][j].setNum(temp);
+
+                                invalidate();
+                                return true;
+                            }
+                        }
+
+                        //check right
+                        if(j + 1 < gridSize){
+                            if(squares[i][j + 1].getNum() == emptyValue){
+                                //above is open, move
+                                temp = squares[i][j].getNum();
+                                squares[i][j].setNum(emptyValue);
+                                squares[i][j + 1].setNum(temp);
+
+                                invalidate();
+                                return true;
+                            }
+                        }
+
+                        //below
+                        if(i + 1 < gridSize) {
+                            if (squares[i + 1][j].getNum() == emptyValue) {
+                                //above is open, move
+                                temp = squares[i][j].getNum();
+                                squares[i][j].setNum(emptyValue);
+                                squares[i + 1][j].setNum(temp);
+
+                                invalidate();
+                                return true;
+                            }
+                        }
+
+                        //check left
+                        if(j - 1 >= 0){
+                            if(squares[i][j - 1].getNum() == emptyValue){
+                                //above is open, move
+                                temp = squares[i][j].getNum();
+                                squares[i][j].setNum(emptyValue);
+                                squares[i][j - 1].setNum(temp);
+
+                                invalidate();
+                                return true;
+                            }
+                        }
 
                     }
                 }
             }
-
-
         }
         return false;
     }

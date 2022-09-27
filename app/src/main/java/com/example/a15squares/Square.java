@@ -10,8 +10,9 @@ public class Square {
     private int bottom;
     private int right;
 
-    private boolean isOpen;
+    //private boolean isOpen;
 
+    //this number will tell us if its an open if it is equal to gridSize^2
     private int num;
 
     private Paint color;
@@ -23,7 +24,7 @@ public class Square {
         right = r;
         color = c;
         num = n;
-        isOpen = false;
+        //isOpen = false;
     }
 
     public int getTop(){
@@ -50,15 +51,19 @@ public class Square {
         return color;
     }
 
-    public void toggleIsOpen(){
-        isOpen = !isOpen;
-    }
-
-    public boolean isOpen(){
-        return isOpen;
-    }
+//    public void toggleIsOpen(){
+//        isOpen = !isOpen;
+//    }
+//
+//    public boolean isOpen(){
+//        return isOpen;
+//    }
 
     public int getNum(){
         return num;
+    }
+
+    public void setNum(int n){
+        num = n;
     }
 }
