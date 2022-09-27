@@ -1,5 +1,10 @@
 package com.example.a15squares;
 
+/**
+ * @author Sebastian Santos-Mendoza
+ * @version 9/26/2022
+ */
+
 import android.graphics.Paint;
 import android.graphics.Rect;
 

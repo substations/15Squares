@@ -1,5 +1,13 @@
 package com.example.a15squares;
 
+/**
+ * @author Sebastian Santos-Mendoza
+ * @version 9/26/2022
+ *
+ * ENHANCEMENTS: Grid Size is changeable by manipulating the gridSize variable
+ */
+
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -12,7 +20,7 @@ import android.view.View;
 
 import java.util.Random;
 
-public class GameSurfaceView extends SurfaceView implements View.OnTouchListener{
+public class GameSurfaceView extends SurfaceView implements View.OnTouchListener, View.OnClickListener{
 
     //Randomizer
     private Random rand = new Random();
@@ -58,7 +66,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
         //arbitrary values
         space = 5;
-        size = 250;
+        size = 200;
         initTop = 20;
         initLeft = 20;
 
@@ -156,7 +164,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
                     canvas.drawText("" + squares[i][j].getNum(),
                             squares[i][j].getRight() - (squares[i][j].getRight() - squares[i][j].getLeft())/2,
-                            squares[i][j].getBottom() - (squares[i][j].getBottom() - squares[i][j].getTop())/2,
+                            squares[i][j].getBottom() - (squares[i][j].getBottom() - squares[i][j].getTop())/4,
                             textColor);
 
                 }
@@ -173,7 +181,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
                     canvas.drawText("" + squares[i][j].getNum(),
                             squares[i][j].getRight() - (squares[i][j].getRight() - squares[i][j].getLeft())/2,
-                            squares[i][j].getBottom() - (squares[i][j].getBottom() - squares[i][j].getTop())/2,
+                            squares[i][j].getBottom() - (squares[i][j].getBottom() - squares[i][j].getTop())/4,
                             textColor);
 
                 }
@@ -264,5 +272,11 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
             }
         }
         return false;
+    }
+
+    @Override
+    public void onClick(View view) {
+        Log.d("Testing","click");
+
     }
 }

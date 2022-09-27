@@ -9,18 +9,36 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="horizontal"
+        tools:layout_editor_absoluteX="28dp"
+        tools:layout_editor_absoluteY="119dp">
 
         <com.example.a15squares.GameSurfaceView
             android:id="@+id/gameBoard"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="615dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
 
-        <TextView
-            android:id="@+id/textView"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="Reset" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

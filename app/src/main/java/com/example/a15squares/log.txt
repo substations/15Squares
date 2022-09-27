@@ -1,0 +1,25 @@
+
+
+created the GameSurfaceView and decided I was going to implement the game by touch since buttons would have been
+clunky and hardcoded
+
+started by drawing a single square using the drawRect function
+
+created the Square class so each square has an int value
+
+made the array of Squares and spaced them, had a couple issues trying to space them properly,
+playing around with the spacing and drawing of rectangles allowed me to fix this
+
+decided to make the Square class as minimalist as possible, initially had it store a
+Paint type, but decided that it was going to color it depending on the number value
+this is why the highest value of the game is assigned as the "empty spot"
+
+had issues with my taps not being detected, forgot to hook up the onClickListener in MainActivity
+
+assigned text to each of the boxes using drawText.
+
+for detecting if an empty space was around the tapped box, I was having issues where it wouldn't move.
+fixed by playing around with the if functions
+
+generated an equation to check if the square was in the correct position
+
