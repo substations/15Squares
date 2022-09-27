@@ -15,14 +15,11 @@ public class Square {
     //this number will tell us if its an open if it is equal to gridSize^2
     private int num;
 
-    private Paint color;
-
-    public Square(int t, int l, int b, int r, int n, Paint c){
+    public Square(int t, int l, int b, int r, int n){
         top = t;
         left = l;
         bottom = b;
         right = r;
-        color = c;
         num = n;
         //isOpen = false;
     }
@@ -41,14 +38,6 @@ public class Square {
 
     public int getRight() {
         return right;
-    }
-
-    public void setColor(Paint c){
-        color = c;
-    }
-
-    public Paint getColor() {
-        return color;
     }
 
 //    public void toggleIsOpen(){

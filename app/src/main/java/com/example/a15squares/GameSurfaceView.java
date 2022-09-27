@@ -14,38 +14,51 @@ import java.util.Random;
 
 public class GameSurfaceView extends SurfaceView implements View.OnTouchListener{
 
+    //Randomizer
     private Random rand = new Random();
+
+    //Array of squares for number housing
     private Square squares[][];
+
+    //size of grid
     private int gridSize;
+
+    //amount of space between each square
     private int space;
+
+    //value represents 1) largest number (not visible in game) and 2) empty square to move into
     private int emptyValue;
+
+    //numbers array for keeping track of what numbers are already in use (for rng)
     private int numbers[];
 
+    //initial square placement
     private int initTop;
     private int initLeft;
-
     private int initBottom;
     private int initRight;
 
+    //square size
     private int size;
 
+    //colors
     private Paint closedColor;
     private Paint openColor;
     private Paint textColor;
-
-    int number;
+    private Paint correctColor;
 
     public GameSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
 
+        //initialization
         gridSize = 4;
         emptyValue = gridSize*gridSize;
         numbers = new int[emptyValue];
 
+        //arbitrary values
         space = 5;
         size = 250;
-
         initTop = 20;
         initLeft = 20;
 
@@ -54,28 +67,33 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
         squares = new Square[gridSize][gridSize];
 
+        //setting colors
         closedColor = new Paint();
         closedColor.setColor(Color.WHITE);
 
         openColor = new Paint();
-        openColor.setColor(Color.BLUE);
+        openColor.setColor(Color.DKGRAY);
 
+        correctColor = new Paint();
+        correctColor.setColor(Color.GREEN);
+
+        //color for the numbers/text
         textColor = new Paint();
         textColor.setColor(Color.BLACK);
         textColor.setTextSize(100);
         textColor.setTextAlign(Paint.Align.CENTER);
-
-        number = 1;
 
         //initialization
         for(int n : numbers){
             n = 0;
         }
 
+        //assigns random numbers to each square
         int assign;
         for(int j = 0; j < gridSize; j++) {
             for(int i = 0; i < gridSize; i++) {
 
+                //making sure number isn't already in use
                 boolean pass;
 
                 do{
@@ -96,30 +114,28 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
                     }
                 }
 
-
-
+                //creates square
                 squares[i][j] = new Square(
                         space + initLeft + (initRight - initLeft) * i,
                         space + initTop + (initBottom - initTop) * j,
                         initRight + (initRight - initLeft) * i,
                         initBottom + (initBottom - initTop) * j,
-                        assign,
-                        closedColor);
+                        assign);
 
-                //number++;
-
-                Log.d("Testing","init " + squares[i][j].getNum());
+                //Log.d("Testing","init " + squares[i][j].getNum());
             }
         }
     }
 
     protected void onDraw(Canvas canvas) {
 
-        Log.d("Testing","draw ");
+        //Log.d("Testing","draw ");
+
+        //draw every square
         for(int j = 0; j < gridSize; j++) {
             for(int i = 0; i < gridSize; i++) {
 
-                //acts as open square
+                //open square gets colored differently
                 if(squares[i][j].getNum() == emptyValue){
                     canvas.drawRect(
                         squares[i][j].getLeft(),
@@ -128,14 +144,32 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
                         squares[i][j].getBottom(),
                         openColor
                     );
-                } else {
+
+                } else {  //closed square, draws number in addition to color
 
                     canvas.drawRect(
                             squares[i][j].getLeft(),
                             squares[i][j].getTop(),
                             squares[i][j].getRight(),
                             squares[i][j].getBottom(),
-                            squares[i][j].getColor());
+                            closedColor);
+
+                    canvas.drawText("" + squares[i][j].getNum(),
+                            squares[i][j].getRight() - (squares[i][j].getRight() - squares[i][j].getLeft())/2,
+                            squares[i][j].getBottom() - (squares[i][j].getBottom() - squares[i][j].getTop())/2,
+                            textColor);
+
+                }
+
+                //if in correct square, color accordingly
+                if((squares[i][j].getNum() == ((j + 1) + (gridSize * i))) && squares[i][j].getNum() != emptyValue){
+                    canvas.drawRect(
+                            squares[i][j].getLeft(),
+                            squares[i][j].getTop(),
+                            squares[i][j].getRight(),
+                            squares[i][j].getBottom(),
+                            correctColor
+                    );
 
                     canvas.drawText("" + squares[i][j].getNum(),
                             squares[i][j].getRight() - (squares[i][j].getRight() - squares[i][j].getLeft())/2,
@@ -159,7 +193,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
         //Log.i("Testing","ont");
         if(event.getActionMasked() == MotionEvent.ACTION_DOWN){
 
-
+            //checks which square was just tapped
             for(int i = 0; i < gridSize; i++) {
                 for(int j = 0; j < gridSize; j++) {
 
