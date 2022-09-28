@@ -32,6 +32,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
     //size of grid
     private int gridSize;
+    private int requestChange;
 
     //amount of space between each square
     private int space;
@@ -63,7 +64,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
         super(context, attrs);
         setWillNotDraw(false);
 
-        gridSize = 4;
+        gridSize = requestChange = 4;
         init();
     }
 
@@ -218,6 +219,9 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
     //initialization method
     private void init(){
 
+        if(gridSize != requestChange){
+            gridSize = requestChange;
+        }
         //initialization
         emptyValue = gridSize*gridSize;
         numbers = new int[emptyValue];
@@ -297,8 +301,8 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
     @Override
     public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
 
-        gridSize = progress + 3;
-        Log.d("Testing","progress:" + gridSize);
+        requestChange = progress + 3;
+        Log.d("Testing","progress:" + requestChange);
     }
 
     @Override
