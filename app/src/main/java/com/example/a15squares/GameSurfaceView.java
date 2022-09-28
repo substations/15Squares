@@ -58,7 +58,6 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
     private Paint textColor;
     private Paint correctColor;
 
-    //seekbar for
 
     public GameSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -209,6 +208,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
     @Override
     public void onClick(View view) {
+
         //this onClick acts as a reset
         Log.d("Testing","click");
 
