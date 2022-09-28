@@ -4,7 +4,7 @@ package com.example.a15squares;
  * @author Sebastian Santos-Mendoza
  * @version 9/26/2022
  *
- * ENHANCEMENTS: Grid Size is changeable by manipulating the gridSize variable
+ * ENHANCEMENTS: Grid Size is changeable using seekbar
  */
 
 
@@ -17,10 +17,12 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceView;
 import android.view.View;
+import android.widget.SeekBar;
 
 import java.util.Random;
 
-public class GameSurfaceView extends SurfaceView implements View.OnTouchListener, View.OnClickListener{
+public class GameSurfaceView extends SurfaceView implements View.OnTouchListener,
+        View.OnClickListener, SeekBar.OnSeekBarChangeListener{
 
     //Randomizer
     private Random rand = new Random();
@@ -55,9 +57,13 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
     private Paint textColor;
     private Paint correctColor;
 
+    //seekbar for
+
     public GameSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setWillNotDraw(false);
+
+        gridSize = 4;
         init();
     }
 
@@ -211,14 +217,15 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
 
     //initialization method
     private void init(){
+
         //initialization
-        gridSize = 4;
         emptyValue = gridSize*gridSize;
         numbers = new int[emptyValue];
 
         //arbitrary values
         space = 5;
-        size = 200;
+
+        size = 880/gridSize;
         initTop = 20;
         initLeft = 20;
 
@@ -240,7 +247,7 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
         //color for the numbers/text
         textColor = new Paint();
         textColor.setColor(Color.BLACK);
-        textColor.setTextSize(100);
+        textColor.setTextSize(400/gridSize);
         textColor.setTextAlign(Paint.Align.CENTER);
 
         //initialization
@@ -285,5 +292,22 @@ public class GameSurfaceView extends SurfaceView implements View.OnTouchListener
                 //Log.d("Testing","init " + squares[i][j].getNum());
             }
         }
+    }
+
+    @Override
+    public void onProgressChanged(SeekBar seekBar, int progress, boolean b) {
+
+        gridSize = progress + 3;
+        Log.d("Testing","progress:" + gridSize);
+    }
+
+    @Override
+    public void onStartTrackingTouch(SeekBar seekBar) {
+
+    }
+
+    @Override
+    public void onStopTrackingTouch(SeekBar seekBar) {
+
     }
 }

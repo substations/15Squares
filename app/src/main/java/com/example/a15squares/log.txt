@@ -23,3 +23,6 @@ fixed by playing around with the if functions
 
 generated an equation to check if the square was in the correct position
 
+made grid size adjustable by passing gridsize as a variable. figured out equations to make box size and text
+size variable
+
